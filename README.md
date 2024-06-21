@@ -1,6 +1,6 @@
 # Ollama Discord Bot <br>
 Wrapper of sorts between the Ollama HTTP/Python APIs and Discord Bot Functionality
-Most Ollama functions are mapped to a Discord Bot command [[Commands](#Bot_Commands)]
+Most Ollama functions are mapped to a Discord Bot command
 
 #### Requirements <br>
 - Redis Database
