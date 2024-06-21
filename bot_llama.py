@@ -1,25 +1,20 @@
-import os
 import ollama
 from ollama import *
 import base64
 import jsonlines
-import json
 import requests
 import redis
-import asyncio
 
 class Bot_Llama:
-    def __init__(self, host: str = '127.0.0.1', ollama_port: int = 11434, redis_db: str = '127.0.0.1', redis_port: int = 6379):
+    def __init__(self, host: str='127.0.0.1', ollama_port: int=11434, redis_db: str='127.0.0.1', redis_port: int=6379, default_cnn: str='llava', default_llm: str='llama3'):
         self.host = host
         self.ollama_port = ollama_port
         self.redis_db = redis_db
         self.redis_port = redis_port
+        self.llama_model = self.default_llm
+        self.visual_model = default_cnn
 
     context = None
-    default_llama = "llama3:instruct"
-    default_llava = "llava"
-    llama_model = default_llama
-    visual_model = default_llava
 
     def query_model(self, query, system, user):
 
@@ -83,7 +78,7 @@ class Bot_Llama:
 
     def connect_redis(self):
         try:
-            r = redis.Redis(host='100.109.17.11', port=6379, decode_responses=True)
+            r = redis.Redis(host=self.redis_db, port=self.redis_port, decode_responses=True)
         except redis.exceptions.RedisError as e:
             raise RuntimeError('Failed to make Redis connection') from e
 
@@ -136,8 +131,6 @@ class Bot_Llama:
             i = i.split(":", 1)[0]
             models.append(i)
         
-
-        print(models)
         return models
 
     def change_model(self, new_model):

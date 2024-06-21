@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import requests
 import discord
 from discord.ext import commands
@@ -9,7 +11,12 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-ai = glorpai()
+load_dotenv()
+
+ai = Bot_Llama(host=os.getenv('OLLAMA_HOST'),
+               ollama_port=int(os.getenv('OLLAMA_PORT')),
+               redis_db=os.getenv('REDIS_HOST'),
+               redis_port=int(os.getenv('REDIS_PORT')))
 
 @bot.command()
 async def remember(ctx):
@@ -90,7 +97,7 @@ async def embed(ctx, arg):
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
-    #ai.set_context()
+    ai.set_context()
 
 @bot.event
 async def on_message(message):
@@ -141,7 +148,7 @@ async def on_message(message):
             return
         
 
-bot.run('MTIzMjg4NjE5ODQ4NjMwMjgwMw.GgRoKc.cWWhTieJwat_t4CGSjuKe22ZGsqyDlWRHK4XE4')
+bot.run(os.getenv('DISCORD_TOKEN'))
 
 
 
