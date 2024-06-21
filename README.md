@@ -35,6 +35,7 @@ git clone https://github.com/Granther/ollama-bot
 ```
 cd ollama_bot
 python -m venv .venv
+source .venv/bin/activate
 ```
 3. Install Python dependencies from `requirements.txt` file <br>
 ```
